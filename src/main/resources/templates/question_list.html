@@ -1,0 +1,18 @@
+<table>
+    <thead>
+    <tr>
+        <th>순번</th>
+        <th>제목</th>
+        <th>작성일시</th>
+        <th>답변개수</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="question, loop : ${questions}">
+        <td th:text="${loop.index+1}"></td>
+        <td th:text="${question.getSubject()}"></td>
+        <td th:text="${question.getCreatedDate()}"></td>
+        <td th:text="${question.getAnswers().size()}"></td>
+    </tr>
+    </tbody>
+</table>
