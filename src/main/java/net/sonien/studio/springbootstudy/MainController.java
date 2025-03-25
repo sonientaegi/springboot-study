@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class MainController {
     @GetMapping("/")
     public String root() {
-        return "redirect:/questions";
+        return "redirect:/question";
     }
 
     @GetMapping("/hello")
     @ResponseBody
-    public String HelloWorld() {
+    public String helloWorld() {
         return "Hello World";
     }
 }
