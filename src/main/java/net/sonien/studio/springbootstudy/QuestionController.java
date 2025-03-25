@@ -1,16 +1,16 @@
 package net.sonien.studio.springbootstudy;
 
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import net.sonien.studio.springbootstudy.question.Question;
+import net.sonien.studio.springbootstudy.question.QuestionDTO;
 import net.sonien.studio.springbootstudy.question.QuestionRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.ErrorResponseException;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.servlet.resource.NoResourceFoundException;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class QuestionController {
     @GetMapping("")
     public ApiResponse<List<Question>> list() {
         List<Question> questions = this.questionRepository.findAll();
-        return new ApiResponse(0, "", questions);
+        return new ApiResponse(0, "", QuestionDTO.fromEntity(questions));
     }
 
     @GetMapping("/{id}")
@@ -34,7 +34,6 @@ public class QuestionController {
             throw new ErrorResponseException(HttpStatus.NOT_FOUND);
 
         }
-        question.getAnswers().forEach(answer -> answer.setQuestion(null));
-        return new ApiResponse(0, "", question);
+        return new ApiResponse(0, "", QuestionDTO.fromEntity(question));
     }
 }

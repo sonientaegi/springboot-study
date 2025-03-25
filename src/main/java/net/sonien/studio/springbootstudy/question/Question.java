@@ -1,6 +1,5 @@
 package net.sonien.studio.springbootstudy.question;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,8 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@JsonInclude(JsonInclude.Include.NON_NULL) // Null 값인 필드 제외
-public class Question {
+public class Question implements Cloneable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -28,4 +26,17 @@ public class Question {
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
     private List<Answer> answers;
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
+    public Question mustClone() {
+        try {
+            return (Question) this.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

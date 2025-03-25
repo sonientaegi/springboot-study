@@ -3,6 +3,7 @@ package net.sonien.studio.springbootstudy;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import net.sonien.studio.springbootstudy.answer.Answer;
+import net.sonien.studio.springbootstudy.answer.AnswerDTO;
 import net.sonien.studio.springbootstudy.answer.AnswerRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -22,11 +23,9 @@ public class AnswerController {
     @GetMapping("/{id}")
     public ApiResponse<Answer> get(@PathVariable int id) {
         Answer answer = this.answerRepository.findById(id).orElse(null);
-
         if (answer == null) {
             throw new ErrorResponseException(HttpStatus.NOT_FOUND);
         }
-        answer.getQuestion().setAnswers(null);
-        return new ApiResponse(0, "", answer);
+        return new ApiResponse(0, "", AnswerDTO.fromEntity(answer));
     }
 }
