@@ -1,5 +1,6 @@
 package net.sonien.studio.springbootstudy;
 
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import net.sonien.studio.springbootstudy.question.Question;
 import net.sonien.studio.springbootstudy.question.QuestionRepository;
@@ -31,8 +32,9 @@ public class QuestionController {
         Question question = this.questionRepository.findById(id).orElse(null);
         if (question == null) {
             throw new ErrorResponseException(HttpStatus.NOT_FOUND);
-        } else {
-            return new ApiResponse(0, "", question);
+
         }
+        question.getAnswers().forEach(answer -> answer.setQuestion(null));
+        return new ApiResponse(0, "", question);
     }
 }

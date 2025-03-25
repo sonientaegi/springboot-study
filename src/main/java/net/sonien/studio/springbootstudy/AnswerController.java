@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Controller
 public class AnswerController {
     private final AnswerRepository answerRepository;
-    private final EntityManager entityManager;
 
     @GetMapping("/{id}")
     public ApiResponse<Answer> get(@PathVariable int id) {
@@ -26,8 +25,8 @@ public class AnswerController {
 
         if (answer == null) {
             throw new ErrorResponseException(HttpStatus.NOT_FOUND);
-        } else {
-            return new ApiResponse(0, "", answer);
         }
+        answer.getQuestion().setAnswers(null);
+        return new ApiResponse(0, "", answer);
     }
 }
